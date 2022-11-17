@@ -24,6 +24,26 @@ services:
     ports:
       - 8443:8443
     restart: unless-stopped
+  frontend:
+      logging:
+        options:
+          mode: non-blocking
+          max-size: 4m
+      container_name: frontend
+      image: frontend
+      restart: always
+      build:
+        context: .
+        dockerfile: ./frontend/Dockerfile
+      volumes:
+        - ./frontend/:/app/
+      ports:
+        - "3000:3000"
+  gitlab-runner:
+    image: docker.io/bitnami/gitlab-runner:15
+    volumes:
+      - ./jobs/config.toml:/etc/gitlab-runner/config.toml
+
 volumes:
   gitlab-data:
   gitlab-logs:
