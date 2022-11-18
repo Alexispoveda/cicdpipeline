@@ -1,0 +1,3 @@
+artifacts:
+  enabled: true
+  path: /artifact
