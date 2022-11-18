@@ -44,7 +44,13 @@ services:
     container_name: gitlab-runner
     volumes:
       - ./jobs/config.toml:/etc/gitlab-runner/config.toml
-
+  production:
+    container_name: production
+    build:
+      context: .
+      dockerfile: ./production/Dockerfile
+    ports:
+      - '80:80'
 volumes:
   gitlab-data:
   gitlab-logs:
