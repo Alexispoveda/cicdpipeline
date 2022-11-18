@@ -1,0 +1,19 @@
+image: node
+
+cache:
+  paths:
+    - node_modules/
+
+deploy:
+  stage: deploy
+  environment:
+    name: production
+    url: example.com
+  script:
+    - bash deploy.sh
+  artifacts:
+    paths:
+      - build/
+
+  only:
+    - main

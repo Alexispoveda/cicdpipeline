@@ -44,6 +44,9 @@ services:
     container_name: gitlab-runner
     volumes:
       - ./jobs/config.toml:/etc/gitlab-runner/config.toml
+      - ./jobs/gitlab.yml:/home/git/gitlab/config/gitlab.yml
+      - build-artifact:/artifact
+      - /var/run/docker.sock:/var/run/docker.sock 
   production:
     container_name: production
     build:
@@ -51,7 +54,10 @@ services:
       dockerfile: ./production/Dockerfile
     ports:
       - '80:80'
+    volumes:
+      - build-artifact:/build
 volumes:
   gitlab-data:
   gitlab-logs:
   gitlab-config:
+  build-artifact:
