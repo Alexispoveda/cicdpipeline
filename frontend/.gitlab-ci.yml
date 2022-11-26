@@ -1,19 +1,34 @@
 image: node
 
+stages:
+  - test
+  - deploy
+
+variables:
+  PACKAGENAME: 'ReactApp'
+
 cache:
   paths:
     - node_modules/
 
 test:
   stage: test
+  variables:
+    GIT_STRATEGY: fetch
   script:
+    - chmod +x ./test.sh
+    - git update-index --chmod=+x ./test.sh
     - bash test.sh
 
 deploy:
   stage: deploy
+  variables:
+    GIT_CLONE_PATH: $CI_BUILDS_DIR/seguridad-saavedra
   environment:
     name: production
     url: example.com
+  before_script:
+    - apt-get update -y && apt-get install -y sshpass && apt-get install openssh-client -y
   script:
     - bash deploy.sh
   artifacts:
