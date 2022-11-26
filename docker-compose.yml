@@ -1,7 +1,10 @@
 version: '3.6'
 services:
   gitlab:
-    image: 'gitlab/gitlab-ce:latest'
+    image: gitlab
+    build:
+      context: .
+      dockerfile: ./gitlab/Dockerfile
     container_name: gitlab
     restart: always
     ports:
@@ -12,6 +15,7 @@ services:
       - gitlab-config:/etc/gitlab
       - gitlab-logs:/var/log/gitlab
       - gitlab-data:/var/opt/gitlab
+      - ./gitlab/gitlab.rb:/etc/gitlab/gitlab.rb
   code-server:
     image: lscr.io/linuxserver/code-server:latest
     container_name: code-server
@@ -40,7 +44,10 @@ services:
       ports:
         - "3000:3000"
   gitlab-runner:
-    image: gitlab/gitlab-runner:alpine
+    image: gitlab-runner
+    build:
+      context: .
+      dockerfile: ./jobs/Dockerfile
     container_name: gitlab-runner
     volumes:
       - ./jobs/config.toml:/etc/gitlab-runner/config.toml
