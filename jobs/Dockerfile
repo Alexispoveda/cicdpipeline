@@ -1,6 +1,7 @@
+# Imagen oficial de GitLab CI Runner
 FROM gitlab/gitlab-runner:latest
 
-# update 
+# Actualizamos el sistema
 RUN apt-get update -y \
     # install curl 
     && apt-get -y install curl gnupg \
