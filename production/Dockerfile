@@ -1,19 +1,20 @@
 FROM node:16.14-alpine AS build-step
-
+# Create app directory
 WORKDIR /build
-
+# Add node_modules to path
 ENV PATH /app/node_modules/.bin:$PATH
 RUN echo "$PWD"
-
+# Install app dependencies
 COPY "frontend/package.json" ./
 COPY "frontend/package-lock.json" ./
 RUN npm install
-
+# Copy app source code
 COPY ./frontend .
+# Build app
 RUN npm run build
-
+# Stage 2 - the production environment
 FROM nginx:1.18-alpine
-
+# Install openssh
 RUN apk add --update --no-cache openssh 
 RUN apk add openssh
 RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
