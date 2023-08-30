@@ -13,7 +13,7 @@ COPY ./frontend .
 # Build app
 RUN npm run build
 # Stage 2 - the production environment
-FROM nginx:1.18-alpine
+FROM nginx:1.25.2-alpine
 # Install openssh
 RUN apk add --update --no-cache openssh 
 RUN apk add openssh
